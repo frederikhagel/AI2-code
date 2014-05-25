@@ -49,24 +49,21 @@ for marius in marius_liste + marius_liste2 + marius_liste3:
         if marius[0][0][0][index] == 57 or (marius[0][0][0][index] == 0 and marius[0][1] != 6):
             print "fejl"
         else :
-            marius_training_set.addSample(np.sort( marius[0][0][0][0],
-                                          marius[0][0][0][1],
-                                          marius[0][0][0][2],
-                                          marius[0][0][0][3]),
-                                          np.sort(marius[0][0][1][0],
-                                          marius[0][0][1][1],
-                                          marius[0][0][1][2],
-                                          marius[0][0][1][3]),
-                                          np.sort(marius[0][0][2][0],
-                                          marius[0][0][2][1],
-                                          marius[0][0][2][2],
-                                          marius[0][0][2][3]),                                          
-                                          np.sort(marius[0][0][3][0],
-                                          marius[0][0][3][1],
-                                          marius[0][0][3][2],
-                                          marius[0][0][3][3]),
-                                          marius[0][1]],
-                                          [index]  )
+            liste1 = [marius[0][0][0][0]/57., marius[0][0][0][1]/57.,marius[0][0][0][2]/57., marius[0][0][0][3]/57. ]
+            liste2 =  [marius[0][0][1][0]/57., marius[0][0][1][1]/57., marius[0][0][1][2]/57., marius[0][0][1][3]/57.]
+            liste3 = [marius[0][0][2][0]/57., marius[0][0][2][1]/57., marius[0][0][2][2]/57., marius[0][0][2][3]/57.]
+            liste4 = [marius[0][0][3][0]/57., marius[0][0][3][1]/57., marius[0][0][3][2]/57., marius[0][0][3][3]/57.]
+            liste1.sort()
+            liste2.sort()
+            liste3.sort()
+            liste4.sort()
+
+            
+            liste =  liste1 + liste2 + liste3 + liste4  + [ marius[0][1] ]                
+            print liste
+                                              
+                                          
+            marius_training_set.addSample(liste , [index]  )
                                           
 with open('training.dat', 'wb') as f:
     pickle.dump( marius_training_set , f)

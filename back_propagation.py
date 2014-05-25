@@ -43,7 +43,7 @@ print "First sample (input, target, class):"
 print trndata['input'][0], trndata['target'][0], trndata['class'][0]
 print trndata['input'][1], trndata['target'][1], trndata['class'][1]
 
-fnn = buildNetwork( trndata.indim, 30, trndata.outdim, outclass=SoftmaxLayer )
+fnn = buildNetwork( trndata.indim, 20, trndata.outdim, outclass=SoftmaxLayer )
 
 trainer = BackpropTrainer( fnn, dataset=trndata, momentum=0.01, verbose=True, weightdecay=0.01)
 
