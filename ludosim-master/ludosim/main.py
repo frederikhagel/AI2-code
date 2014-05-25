@@ -239,6 +239,7 @@ class FrederikPlayer(object):
         self.name = name
         self.index = index
         self.chosen_states = []
+        self.liste = []
 #        self.temp_index = 0
 
 #    def changeTempIndex(self, index):
@@ -270,29 +271,40 @@ class FrederikPlayer(object):
     for token_index, move in enumerate(possible_moves) :
          change.append(move - state[self.index][token_index])
 
-    summation = 0
-    for c in change:
-        if c > 0:
-            summation = summation + 1
-#
-#    print change
-#    print summation            
-            
-    import copy            
-            
-    if summation > 2: 
-        if np.random.randint(0,150) == 0:
-            print change
-            print summation
-            print [ state, roll ] 
-            self.chosen_states.append( [ copy.deepcopy(state), copy.copy(roll) ] )
-               
+#    summation = 0
+#    for c in change:
+#        if c > 0:
+#            summation = summation + 1
+##
+##    print change
+##    print summation            
+#            
+#    import copy            
+#            
+#    if summation > 2: 
+#        if np.random.randint(0,150) == 0:
+#            print change
+#            print summation
+#            print [ state, roll ] 
+#            self.chosen_states.append( [ copy.deepcopy(state), copy.copy(roll) ] )
+#               
+
+    
 
     move = np.random.randint(0,len(possible_moves))
     while(change[move] == 0):
         move = np.random.randint(0,len(possible_moves))        
-        
-	
+     
+    import copy
+
+    outer = [0,0,0,0]
+    outer[move] = 1
+
+    if state[self.index] == [0,0,0,0]:
+        self.liste = []
+        self.liste.append( [[ copy.deepcopy(state), copy.copy(roll) ], outer] )
+    else :
+        self.liste.append( [[ copy.deepcopy(state), copy.copy(roll) ], outer] )
 #	print "possible", possible_moves
     #print [ state, roll ]
 #    best = possible_moves[0]
@@ -405,7 +417,7 @@ if __name__ == '__main__':
         
     print "Start"        
         
-    players = [ MariusPlayer(0, 'Marius player 0'),
+    players = [ FrederikPlayer(0, 'Marius player 0'),
                 ludosim.RandomPlayer(1, 'Random player 1'),                
                 ludosim.RandomPlayer(2, 'Random player 2'),
                 ludosim.RandomPlayer(3, 'Random player 3') ]        
@@ -415,19 +427,23 @@ if __name__ == '__main__':
     winner_vect = []
     wins = [0]*len(players)
     
+    great_list = []    
+    
     # Run a lot of games
     for i in range(100) :
         sim = ludosim.LudoSim(printout=False, statics=True, dynamics=True)
         winner = sim.playGame(players).index
+        if winner == 0:
+            great_list.append( players[0].liste  )
         wins[winner] = wins[winner]+1
         winner_vect.append(wins[:]) 
 
 
 #    print "antal", len(players[0].give_list())
 #
-#    import pickle
-#    with open('state_liste.dat', 'wb') as f:
-#        pickle.dump(players[0].give_list(), f)
+
+    with open('test_liste.dat', 'wb') as f:
+        pickle.dump(great_list, f)
 
    
     # Plot the winnings

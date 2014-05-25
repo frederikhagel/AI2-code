@@ -23,7 +23,7 @@ from numpy.random import multivariate_normal
 
 import pickle
 
-with open('training.dat', 'rb') as f:
+with open('new_list_unscaled.dat', 'rb') as f:
     alldata = pickle.load(f)
   
 tstdata, trndata = alldata.splitWithProportion( 0.25 )  
@@ -43,9 +43,51 @@ print "First sample (input, target, class):"
 print trndata['input'][0], trndata['target'][0], trndata['class'][0]
 print trndata['input'][1], trndata['target'][1], trndata['class'][1]
 
-fnn = buildNetwork( trndata.indim, 20, trndata.outdim, outclass=SoftmaxLayer )
+#fnn = buildNetwork( trndata.indim, 150, trndata.outdim, outclass=SoftmaxLayer )
 
-trainer = BackpropTrainer( fnn, dataset=trndata, momentum=0.01, verbose=True, weightdecay=0.01)
+
+from pybrain.structure import FeedForwardNetwork
+n = FeedForwardNetwork()
+
+from pybrain.structure import LinearLayer, SigmoidLayer
+
+#inLayer = LinearLayer(17)
+#hiddenLayer1 = SigmoidLayer(30)
+#hiddenLayer2 = SigmoidLayer(20)
+#outLayer = LinearLayer(4)
+#
+#n.addInputModule(inLayer)
+#n.addModule(hiddenLayer1)
+#n.addModule(hiddenLayer2)
+#n.addOutputModule(outLayer)
+
+inLayer = LinearLayer(17)
+hiddenLayer = SigmoidLayer(10)
+outLayer = LinearLayer(4)
+
+n.addInputModule(inLayer)
+n.addModule(hiddenLayer)
+n.addOutputModule(outLayer)
+
+#n.addInputModule(LinearLayer(17, name='in'))
+#n.addModule(SigmoidLayer(20, name='hidden'))
+#n.addOutputModule(LinearLayer(4, name='out'))
+from pybrain.structure import FullConnection
+#in_to_hidden = FullConnection(inLayer, hiddenLayer1)
+#hidden_to_hidden = FullConnection(hiddenLayer1, hiddenLayer2)
+#hidden_to_out = FullConnection(hiddenLayer2, outLayer)
+
+in_to_hidden = FullConnection(inLayer, hiddenLayer)
+hidden_to_out = FullConnection(hiddenLayer, outLayer)
+
+
+n.addConnection(in_to_hidden)
+#n.addConnection(hidden_to_hidden)
+n.addConnection(hidden_to_out)
+
+n.sortModules()
+
+trainer = BackpropTrainer( n, dataset=trndata, momentum=0.1, verbose=True, weightdecay=0.01)
 
 
 #ticks = arange(-3.,6.,0.2)
@@ -57,8 +99,8 @@ trainer = BackpropTrainer( fnn, dataset=trndata, momentum=0.01, verbose=True, we
 #griddata._convertToOneOfMany()  # this is still needed to make the fnn feel comfy
 
 
-for i in range(40):
-    trainer.trainEpochs( 1 )
+for i in range(1):
+    trainer.trainEpochs( 15 )
     trnresult = percentError( trainer.testOnClassData(),
                               trndata['class'] )
     tstresult = percentError( trainer.testOnClassData(
@@ -71,16 +113,16 @@ for i in range(40):
 #out = fnn.activate(trndata['input'][0])
 
 
-fileObject = open('fnn', 'w')
-pickle.dump(fnn, fileObject)
+fileObject = open('n_new10', 'w')
+pickle.dump(n, fileObject)
 fileObject.close()
 
 
 
-print tstdata['input'][0],  fnn.activate(tstdata['input'][0])
-print tstdata['input'][20],  fnn.activate(tstdata['input'][20])
-print tstdata['input'][40],  fnn.activate(tstdata['input'][40])
-print tstdata['input'][25],  fnn.activate(tstdata['input'][25])
+print tstdata['input'][0],  n.activate(tstdata['input'][0])
+print tstdata['input'][20],  n.activate(tstdata['input'][20])
+print tstdata['input'][40],  n.activate(tstdata['input'][40])
+print tstdata['input'][25],  n.activate(tstdata['input'][25])
 
 
 #print fnn([ 35.,   0.,  19.,   4.,  11.,   0.,   0.,  57.,  33.,   0.,  51.,   0.,  57.,  57.,  26.,   0.,   2.])

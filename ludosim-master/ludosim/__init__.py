@@ -277,6 +277,11 @@ class RandomPlayer(object):
         return move
     
     def receiveFeedback(self, feedback):
+        if self.last_state[self.index] == feedback[self.index] :
+            self.status_good = True
+        else:
+            self.status_bad = False
+        self.last_state = feedback        
         '''
             Method for receiving feedback from the simulator in the form of counters showing
             how many times each token on the board has restarted. If the player was hit home 
