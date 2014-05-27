@@ -8,10 +8,11 @@
 %\author{Frederik Hagelskjær}
 \documentclass{llncs} 
 \usepackage{llncsdoc}
+\usepackage{graphicx}
 
 \begin{document}
 
-\title{Title}
+\title{Training Neural Network}
 \author{Frederik Hagelskjær}
 \institute{University of Southern Denmark, Campusvej 55, 5230 Odense M, Denmark \\frhag10@student.sdu.dk}
 \maketitle
@@ -22,7 +23,7 @@ This article is the course AI2 at the University of Southern Denmark.
 
 \end{abstract}
 
-\section*{Introduction}
+\section*{Introduction} % 5
 
 The LUDO game. 
 
@@ -32,21 +33,115 @@ There are no real requirements to the agents performance, but the results of the
 
 The goal of AI is an introduction to artificial neural networks, and therefore the agents developed in this article will use such an approach.
 
-The complexity of the LUDO game, makes it impossible to make a analytical solution by simple determining every solution for every state, thus making decision making a lookup table, as shown in \citep{6031999}. This article tries to determine an appropriate neural network for an agent playing on level with other solutions.
+The complexity of the LUDO game, makes it impossible to make a analytical solution by simple determining every solution for every state, thus making decision making a lookup table, as shown in \cite{6031999}. This article tries to determine an appropriate neural network for an agent playing on level with other solutions.
 
-The performance of the ludo player will be measured by the proverb "If you ain't first you're last"\footnote{http://en.wikiquote.org/wiki/Talladega_Nights:_The_Ballad_of_Ricky_Bobby}, thus only the amount of victories will be measured. That is test will be run for the ludo player against proportional opponents until a linearity is found, i.e. more plays wont change the relationship between wins.
+The performance of the ludo player will be measured by the proverb: "If you ain't first you're last" \footnote{ $http://en.wikiquote.org/wiki/Talladega\_Nights:\_The_Ballad_of_Ricky_Bobby$}
+, thus only the amount of victories will be measured. That is test will be run for the ludo player against proportional opponents until a linearity is found, i.e. more plays wont change the relationship between wins.
 
-Originally the neural networks were trained using different error minimization procedures.
+The goal will be to avoid any "tweaking" of parameters towards the creation of the neural network. Examples of such tweaking will be shown, both to show it's strengths and why it is desirable to avoid. Neural networks are often created with preprocessed input \cite{NeuronOnline}. 
+
+An example of such preprocessing can be seen by looking at the ludo game and it's dynamics. Every turn a piece is dictated to move forward, and except from stars and globes overall progress is the same. Thus one could speculate that the most important factor is hitting home. One could thus give the relationship  of positions between pieces instead of all positions, as seen in figure%\ref{•}.
+. The indicating the gain from using stars and globes.
+
+
+The problem is  this isn't necessarily the best solution and could thus steer the network towards a suboptimal solution. 
+
+
+
+Thus the idea is to create neural networks trained only by the knowledge that winning is positive. Seeing ludo as a black box problem.
+
+
 
 Training the neural network.
 
-Back-propagating was used. 
+\section*{Methods} % 40%
 
-Trying to emulate a human playing ludo.
+The neural networks were implemented using PyBrain described in \cite{schaul2010}. This was done because of a desire to obtain the flexibility and ease of Python while still retaining the speed of C. 
 
+The implementation of the ludo game was done using Leon Larsens ludosimulator.
+
+
+Before training the neural networks the dimension of the neural network must be decided. There exist no formal definition for how to chose the size of a network with unknown complexity. Though to avoid over fitting the system when training, the dimension should not be to large. A standard element of neural networks is the perceptron taking weighted input and returns 0 or 1. Thus a combination of these could decide which brick to move. The problem is that a single layer perceptron is a linear separator and to avoid this a hidden layer is introduced \cite{Russell}. 
+
+Originally neural networks were trained using different error minimization procedures. 
+Back-propagating was used.
+
+
+Thus it is necessary to provide a training signal for this approach. By looking at different ludo games and measuring the procedure of the winner one could create train a neuron to make winner decisions. The system is still seen as a black box as no evaluation is done on the actual moves, they are simply used by the winner.
+
+As no data set of ludo winner moves were available an imitation were performed. Test data were collected by agents taking random moves playing against each other. By a chance of 1/200 the board state and dice roll were added to a dataset. 
+
+A test person then evaluates the data, and chose the "perceived" optimal move. Thus a learning set were created for the back propagation algorithm.
+
+The first test is to see whether it is possible to train a neural network using datasets with an answers provided by a human.  
+
+Another test were performed to test the pack propagations possibility of learning simply from random games.Numerous games were played with random agents and for every game that resulted in a win, states and answer were collected. Thus a dataset to win against random agents were created. 
+
+Not really but the idea is there.
+ 
+
+
+
+To see whether winning patters could be seen from whole games.  could be seen in the 
+
+\subsection*{The neural network}
+
+The ludo player developed uses a neural network to decide which brick to move given state and roll values. The values are scaled between 0 and 1 . In ludo one cannot decide not to move any of the bricks and thus it necessary to guarantee that the move is legal. This is done by taking the best value that gives a change in states and using that as the move. The start position is a random start value, so if all ranks were equal it would be a random output.
+
+\section*{Results} % 20%
+
+By using the trained data from the human choices the following results were found.
+
+
+\begin{figure}[t]
+        \centering
+		\includegraphics[scale=0.3]{../lillens_gener_unscaled_u.png} 
+        \caption{ Result of 1000 ludo games. Genetic warrior being the trained neural network.}\label{fig:ligener}
+\end{figure} 
+
+Fitting the data using automatically generated data. Trying to decide the optimal size to fit the data, i.e. the test data.
+
+\begin{figure}[t]
+        \centering
+		\includegraphics[scale=0.3]{../testing_fit_3D.png} 
+        \caption{ Plot showing the error of the training set using different epochs and number of hidden neurons. Respectively on the right and left side.}\label{fig:3D}
+\end{figure} 
+
+
+For the genetic algorithm multiple randomly generated parameters were created.
+
+Random data results. All neural networks outperform the random players. Data set, example.
+
+\begin{figure}[t]
+        \centering
+		\includegraphics[scale=0.3]{../50_random_1.png} 
+        \caption{ Number of wins for 100 ludo games for 50 different randomly generated neural networks. }\label{fig:random_50}
+\end{figure} 
+
+
+
+\section*{Analysis and Discussion} % 25%
+
+
+Look into grouping of whether certain moves belong to a "winning" or losing set.
+
+
+
+\section*{Conclusion} % 5%
+
+Conclusive  works better than random, almost 
 
 
 \end{document}
 
-\bibliography{article_bibtex}
+\section*{Acknowledgements} %5
+
+Marius Hagelskjær, my little brother, for sitting through and judge more than 200 different ludo states.
+
+Leon Larsen, for providing the ludo simulator and help when it didn't work.
+
 \bibliographystyle{plain}
+%\bibliographystyle{unsrt}
+\bibliography{article_bibtex}
+
+\printbibliography

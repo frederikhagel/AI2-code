@@ -13,20 +13,35 @@
     Simple test to show the principle
 '''
 
+import os
+import subprocess
+import sys
+
+sys.path = sys.path + ['/home/frederik/installed_packages/arac/src/python']
+#os.environ['LD_LIBRARY_PATH'] = "/home/frederik/installed_packages/arac"
+##subprocess.check_call(['sqsub', '-np', sys.argv[0], '/AI2/ludosim-master/ludosim'],
+##                      env=os.environ)
+
+#export LD_LIBRARY_PATH=/home/frederik/installed_packages/arac:$LD_LIBRARY_PATH
+
+
 import numpy as np
 
 import pickle
 
 
-from pybrain.datasets            import ClassificationDataSet
-from pybrain.utilities           import percentError
-from pybrain.tools.shortcuts     import buildNetwork
+#from pybrain.datasets            import ClassificationDataSet
+#from pybrain.utilities           import percentError
+#from pybrain.tools.shortcuts     import buildNetwork
 
 import copy
 
 from pybrain.structure import FeedForwardNetwork
 
 from pybrain.structure import LinearLayer, SigmoidLayer
+
+from arac.pybrainbridge import _FeedForwardNetwork
+
 #
 #
 #print n.activate([0, 0, 0, 0, 0, 0, 0, 0, 0, 27, 0, 0, 0, 0, 39, 0, 6])
@@ -68,8 +83,11 @@ class GeneticPlayerSH5(object):
         for j, i in enumerate(params[1]):
             n.connections[self.inLayer][0].params[j] = i
 
+        n.convertToFastNetwork()
+
         self.n = n
 #        
+        self.n.convertToFastNetwork()
 #        for mod in n.modules:
 #            print mod
 #            for conn in n.connections[mod]:
@@ -167,16 +185,18 @@ if __name__ == '__main__':
         
     print "Start"        
     
-    genes = []    
+    with open('mated_gene_list_3_speed.dat', 'rb') as f:
+        genes = pickle.load(f)    
     
-    for i in range(50):
-        gene1 = []
-        for i in range(20):
-            gene1.append(random.uniform(-1, 1))            
-        gene2 = []        
-        for i in range(85):
-            gene2.append(random.uniform(-1, 1))        
-        genes.append(GeneticPlayerSH5(0, 'Genetic Warrior 1', [gene1, gene2]) )
+#    genes = []
+#    for i in range(50):
+#        gene1 = []
+#        for i in range(20):
+#            gene1.append(random.uniform(-1, 1))            
+#        gene2 = []        
+#        for i in range(85):
+#            gene2.append(random.uniform(-1, 1))        
+#        genes.append(GeneticPlayerSH5(0, 'Genetic Warrior 1', [gene1, gene2]) )
 
     winner_list = []
 
@@ -205,5 +225,5 @@ if __name__ == '__main__':
 
     print winner_list 
 
-    with open('gene_list.dat', 'wb') as f:
+    with open('gene_list_stage4_speed.dat', 'wb') as f:
         pickle.dump(genes, f)
