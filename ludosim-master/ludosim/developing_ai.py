@@ -120,9 +120,9 @@ class GeneticPlayerSH5(object):
 
         if state[self.index] == [0,0,0,0]:
             self.liste = []#ClassificationDataSet(17, 1, nb_classes=4)
-            self.liste.append( [liste , [index] ]  )
+            self.liste.append( [liste , [chosen_move] ]  )
         else :
-            self.liste.append( [ liste , [index] ]  )
+            self.liste.append( [ liste , [chosen_move] ]  )
 
 
         return chosen_move

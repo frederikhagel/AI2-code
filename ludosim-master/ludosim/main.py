@@ -30,7 +30,7 @@ class MariusPlayer(object):
    def __init__(self, index, name):
         self.name = name
         self.index = index
-        fileObject = open('fnn','r')
+        fileObject = open('../../n_marius15','r')
         self.fnn = pickle.load(fileObject)
 
        
@@ -59,10 +59,15 @@ class MariusPlayer(object):
     for token_index, move in enumerate(possible_moves) :
          change.append(move - state[self.index][token_index])
 
-    output = self.fnn.activate([state[0][0],state[0][1],state[0][2],state[0][3],state[1][0],state[1][1],state[1][2],state[1][3],state[2][0],state[2][1],state[2][2],state[2][3],state[3][0],state[3][1],state[3][2],state[3][3],roll])
+    liste1 = [state[self.index][0]/57., state[self.index][1]/57.,state[self.index][2]/57., state[self.index][3]/57. ]
+    liste2 = [state[(self.index+1)%4][0]/57., state[(self.index+1)%4][1]/57., state[(self.index+1)%4][2]/57., state[(self.index+1)%4][3]/57.]
+    liste3 = [state[(self.index+2)%4][0]/57., state[(self.index+2)%4][1]/57., state[(self.index+2)%4][2]/57., state[(self.index+2)%4][3]/57.]
+    liste4 = [state[(self.index+3)%4][0]/57., state[(self.index+3)%4][1]/57., state[(self.index+3)%4][2]/57., state[(self.index+3)%4][3]/57.]
 
+    liste =  liste1 + liste2 + liste3 + liste4  + [ roll/6. ]      
 
-    
+    output = self.fnn.activate(liste)
+  
     move = np.random.randint(0,len(possible_moves))
     while(change[move] == 0):
         move = np.random.randint(0,len(possible_moves))     
@@ -417,11 +422,21 @@ if __name__ == '__main__':
         
     print "Start"        
         
-    players = [ FrederikPlayer(0, 'Marius player 0'),
+    players = [ MariusPlayer(0, 'Marius player 0'),
                 ludosim.RandomPlayer(1, 'Random player 1'),                
                 ludosim.RandomPlayer(2, 'Random player 2'),
                 ludosim.RandomPlayer(3, 'Random player 3') ]        
-    
+
+    players = [ MariusPlayer(0, 'Marius player 0'),
+                QuickPlayer(1, 'Quick player 0'),                
+                MariusPlayer(2, 'Marius player 1'),
+                QuickPlayer(3, 'Quick player 1') ]       
+ 
+    players = [ MariusPlayer(0, 'Marius player 0'),
+                ludosim.RandomPlayer(1, 'Random player 1'),                
+                ludosim.RandomPlayer(2, 'Random player 2'),
+                QuickPlayer(3, 'Quick player 1') ]   
+   
     
     # Variables to hold results
     winner_vect = []
@@ -433,17 +448,17 @@ if __name__ == '__main__':
     for i in range(100) :
         sim = ludosim.LudoSim(printout=False, statics=True, dynamics=True)
         winner = sim.playGame(players).index
-        if winner == 0:
-            great_list.append( players[0].liste  )
+#        if winner == 0:
+#            great_list.append( players[0].liste  )
         wins[winner] = wins[winner]+1
         winner_vect.append(wins[:]) 
-
+        #print i, wins[0]
 
 #    print "antal", len(players[0].give_list())
 #
 
-    with open('test_liste.dat', 'wb') as f:
-        pickle.dump(great_list, f)
+#    with open('test_liste.dat', 'wb') as f:
+#        pickle.dump(great_list, f)
 
    
     # Plot the winnings
