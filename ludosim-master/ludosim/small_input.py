@@ -289,7 +289,7 @@ if __name__ == '__main__':
     
         trainer = BackpropTrainer( tr_network, dataset=trndata, momentum=0.1, verbose=True, weightdecay=0.01)
     
-        trainer.trainEpochs( 3 )
+        trainer.trainEpochs( 5 )
         trnresult = percentError( trainer.testOnClassData(),
                                   trndata['class'] )
         tstresult = percentError( trainer.testOnClassData(
@@ -298,6 +298,14 @@ if __name__ == '__main__':
         print "epoch: %4d" % trainer.totalepochs, \
               "  train error: %5.2f%%" % trnresult, \
               "  test error: %5.2f%%" % tstresult
+
+        
+        for i in range(1000):
+            para = []
+            for i in range(5):
+                para.append(random.uniform(0, 1) )
+            
+            print tr_network.activate( para )
 
         gene1 = tr_network.connections[gplayer.hiddenLayer][0].params  
             
@@ -309,8 +317,8 @@ if __name__ == '__main__':
         print gene1
         print gene2
 
-        with open('gene_list_small_fast' + str(count) + '.dat', 'wb') as f:
-            pickle.dump([gene1, gene2], f)
+#        with open('gene_list_small_fast' + str(count) + '.dat', 'wb') as f:
+#            pickle.dump([gene1, gene2], f)
 
 #
 #

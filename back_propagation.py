@@ -26,7 +26,7 @@ import pickle
 
 data_loc = 'ludosim-master/ludosim/fast_states.dat'
 
-data_loc = 'marius_list_scaled.dat'
+#data_loc = 'marius_list_scaled.dat'
 
 with open(data_loc, 'rb') as f:
     alldata = pickle.load(f)
@@ -146,7 +146,7 @@ n.addConnection(hidden_to_out)
 
 n.sortModules()
 
-trainer = BackpropTrainer( n, dataset=trndata, momentum=0.00000001, verbose=True, weightdecay=0.01)
+trainer = BackpropTrainer( n, dataset=trndata, momentum=0.01, verbose=True, weightdecay=0.01)
 
 
 #ticks = arange(-3.,6.,0.2)
@@ -158,8 +158,9 @@ trainer = BackpropTrainer( n, dataset=trndata, momentum=0.00000001, verbose=True
 #griddata._convertToOneOfMany()  # this is still needed to make the fnn feel comfy
 
 
-for i in range(1):
-    trainer.trainUntilConvergence( )
+for i in range(15):
+    #trainer.trainUntilConvergence( )
+    trainer.trainEpochs( 1 )
     trnresult = percentError( trainer.testOnClassData(),
                               trndata['class'] )
     tstresult = percentError( trainer.testOnClassData(
@@ -172,9 +173,9 @@ for i in range(1):
 #out = fnn.activate(trndata['input'][0])
 
 
-#fileObject = open('n_fast_with_no_bias_simple', 'w')
-#pickle.dump(n, fileObject)
-#fileObject.close()
+fileObject = open('n_marius_for_testing_simple', 'w')
+pickle.dump(n, fileObject)
+fileObject.close()
 
 
 

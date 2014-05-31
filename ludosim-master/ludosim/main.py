@@ -423,20 +423,23 @@ if __name__ == '__main__':
         
     print "Start"        
         
-#    players = [ MariusPlayer(0, 'Marius player 0'),
+    # n_marius_for_testing_simple    good marius
+     
+        
+#    players = [ MariusPlayer(0, '../../n_fast_with_bias'),
 #                ludosim.RandomPlayer(1, 'Random player 1'),                
 #                ludosim.RandomPlayer(2, 'Random player 2'),
 #                ludosim.RandomPlayer(3, 'Random player 3') ]        
 #
-#    players = [ MariusPlayer(0, 'Marius player 0'),
-#                QuickPlayer(1, 'Quick player 0'),                
-#                MariusPlayer(2, 'Marius player 1'),
-#                QuickPlayer(3, 'Quick player 1') ]       
-# 
-#    players = [ MariusPlayer(0, '../../n_fast_with_bias'),
+#    players = [ QuickPlayer(0, 'Quick player 0'),                
 #                ludosim.RandomPlayer(1, 'Random player 1'),                
 #                ludosim.RandomPlayer(2, 'Random player 2'),
-#                QuickPlayer(3, 'Quick player 1') ]   
+#                ludosim.RandomPlayer(3, 'Random player 3') ]      
+# 
+    players = [ MariusPlayer(0, '../../n_fast_with_bias'),
+                QuickPlayer(1, 'Quick player 1') ,                
+                MariusPlayer(2, '../../n_fast_with_bias'),
+                QuickPlayer(3, 'Quick player 1') ]   
 #   
 
 
@@ -446,11 +449,11 @@ if __name__ == '__main__':
 #    players = [ sequintial0,
 #                ludosim.RandomPlayer(1, 'Random player 1'),                
 #                ludosim.RandomPlayer(2, 'Random player 2'),
-#                 MariusPlayer(3, '../../n_fast_with_bias') ] 
-    players = [ sequintial0,
-                ludosim.RandomPlayer(1, 'Random player 1'),                
-                ludosim.RandomPlayer(2, 'Random player 2'),
-                ludosim.RandomPlayer(3, 'Random player 2')]# MariusPlayer(3, '../../n_marius25') ]        
+#                 MariusPlayer(3, '../../n_marius_for_testing_simple') ] 
+#    players = [ sequintial0,
+#                ludosim.RandomPlayer(1, 'Random player 1'),                
+#                ludosim.RandomPlayer(2, 'Random player 2'),
+#                ludosim.RandomPlayer(3, 'Random player 2')]# MariusPlayer(3, '../../n_marius25') ]        
 
   
     # Variables to hold results
@@ -460,7 +463,7 @@ if __name__ == '__main__':
     great_list = []    
     
     # Run a lot of games
-    for i in range(100) :
+    for i in range(1000) :
         sim = ludosim.LudoSim(printout=False, statics=True, dynamics=True)
         winner = sim.playGame(players).index
 #        if winner == 0:
@@ -477,6 +480,7 @@ if __name__ == '__main__':
 
    
     # Plot the winnings
+    print wins[0]
     plt.figure("Winnings")
     plt.plot(range(len(winner_vect)),winner_vect)
     plt.legend(['{}'.format(player.name) for player in players],loc=2)
