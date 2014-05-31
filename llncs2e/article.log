@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2014.5.15)  28 MAY 2014 16:24
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2014.5.15)  30 MAY 2014 19:52
 entering extended mode
  %&-line parsing enabled.
 **article.tex
@@ -487,16 +487,16 @@ File: umsb.fd 2009/06/22 v3.00 AMS symbols B
 LaTeX Warning: Citation `6031999' on page 1 undefined on input line 37.
 
 
-LaTeX Warning: Citation `NeuronOnline' on page 1 undefined on input line 42.
+LaTeX Warning: Citation `NeuronOnline' on page 1 undefined on input line 45.
 
 [1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
 
-LaTeX Warning: Citation `schaul2010' on page 2 undefined on input line 61.
+LaTeX Warning: Citation `schaul2010' on page 2 undefined on input line 64.
 
 
-LaTeX Warning: Citation `Russell' on page 2 undefined on input line 65.
+LaTeX Warning: Citation `Russell' on page 2 undefined on input line 68.
 
 [2] <../lillens_gener_unscaled_u.png, id=16, 578.16pt x 433.62pt>
 File: ../lillens_gener_unscaled_u.png Graphic file (type png)
@@ -509,25 +509,28 @@ File: ../testing_fit_3D.png Graphic file (type png)
 <../50_random_1.png, id=19, 586.8324pt x 442.2924pt>
 File: ../50_random_1.png Graphic file (type png)
  <use ../50_random_1.png>
-[3 <../lillens_gener_unscaled_u.png>] [4 <../testing_fit_3D.png> <../50_random_
-1.png>] [5] (./article.aux) ) 
+[3] [4 <../lillens_gener_unscaled_u.png> <../testing_fit_3D.png>] [5 <../50_ran
+dom_1.png>] (./article.aux)
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+ ) 
 Here is how much of TeX's memory you used:
- 2423 strings out of 493848
- 27796 string characters out of 1152823
- 89287 words of memory out of 3000000
- 5677 multiletter control sequences out of 15000+50000
+ 2422 strings out of 493848
+ 27780 string characters out of 1152823
+ 90287 words of memory out of 3000000
+ 5676 multiletter control sequences out of 15000+50000
  10267 words of font info for 40 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
- 29i,9n,22p,599b,216s stack positions out of 5000i,500n,10000p,200000b,50000s
-</usr/share/texmf-texlive/fonts/type1/public/amsfo
-nts/cm/cmbx10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx
-12.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx9.pfb></usr
-/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/share/texmf
--texlive/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-texlive/fon
-ts/type1/public/amsfonts/cm/cmr6.pfb></usr/share/texmf-texlive/fonts/type1/publ
-ic/amsfonts/cm/cmr7.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/c
-m/cmr9.pfb>
-Output written on article.pdf (5 pages, 282670 bytes).
+ 29i,9n,22p,873b,216s stack positions out of 5000i,500n,10000p,200000b,50000s
+</usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/sha
+re/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texmf-te
+xlive/fonts/type1/public/amsfonts/cm/cmbx9.pfb></usr/share/texmf-texlive/fonts/
+type1/public/amsfonts/cm/cmmi9.pfb></usr/share/texmf-texlive/fonts/type1/public
+/amsfonts/cm/cmr10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm
+/cmr6.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr7.pfb></u
+sr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr9.pfb>
+Output written on article.pdf (5 pages, 283964 bytes).
 PDF statistics:
  57 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)

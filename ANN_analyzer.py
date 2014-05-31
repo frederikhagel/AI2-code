@@ -12,8 +12,10 @@ n = FeedForwardNetwork()
 
 from pybrain.structure import LinearLayer, SigmoidLayer
 
-fileObject = open('n_5','r')
+fileObject = open('n_fast_with_bias','r')
 n = pickle.load(fileObject)
+
+
 
 #print n
 #
@@ -43,4 +45,8 @@ for mod in n.modules:
        if conn.paramdim > 0:
           print "- parameters", conn.params
 
-print n.activate([ 0, 0, 0, 1 ] + [ 0 ]*12 + [6] )
+print n.activate([ 0.5, 0.1, 0, 0 ] + [0.4]*12 + [0.8] )
+
+print n.activate([ 0, 0.1, 1, 1 ] + [0.1]*12 + [0.2] )
+
+print n.activate([ 0, 0.1, 1, 1 ] + [0.1]*12 + [0.2] )
