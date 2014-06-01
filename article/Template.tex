@@ -84,7 +84,7 @@
 
 \begin{abstract}
 
-This article is a hand in for the course AI2 at the University of Southern Denmark. It concerns the training of a neural network for playing LUDO. The approach is a black box approach were the network is to be trained without using any prior analysis of the LUDO game. Thus the goal is to analyse the abilities of simple training using backpropagation with moves from other LUDO players. Thus the state of the board is used without any preprocessing and no knowledge about the game is used. It is shown that normal learning algorithms are not able to cope with the complexity of LUDO. Backpropagation and trying to learn from players using GOFAI cannot is not  easily done. It is concluded that preprocessing of data is an important aspect in learning algorithms. An interesting aspect found, in the effectiveness of not alternating the output. Which also explains why most neural networks initiated with random parameters will outperform a random player significantly. 
+This article is a hand in for the course AI2 at the University of Southern Denmark. It concerns the training of a neural network for playing LUDO. The approach is a black box approach were the network is to be trained without using any prior analysis of the LUDO game. Thus the goal is to analyse the abilities of simple training using backpropagation with moves from other LUDO players. Thus the state of the board is used without any preprocessing and no knowledge about the game is used. It is shown that the approach used is not able to cope with the complexity of LUDO. Backpropagation and trying to learn from players using GOFAI is not  easily done. It is concluded that preprocessing of data is an important aspect in learning algorithms. An interesting aspect found, in the effectiveness of not alternating the output. Which also explains why most neural networks initiated with random parameters will outperform a random player significantly. 
 
 \end{abstract}
 
@@ -97,21 +97,27 @@ This article is a hand in for the course AI2 at the University of Southern Denma
 %The goal of AI is an introduction to artificial neural networks, and therefore the agents developed in this article will use such an approach.
 
 
-The idea for this article is to understand the limits of using artificial neural networks, ANN, to solve problems. Thus it is not the goal to simply create the LUDO player with the best performance, but to understand how the performance depends on the development of the network and the given input. 
+The idea for this article is to understand the limits of using artificial neural networks, ANN, to solve problems. Thus it is not the goal to simply create the LUDO player with the best performance, but to understand how the performance depends on the development of the network and the given input. \cite{petersen:m} shows that it is possible to gain recognition and image understanding using pixels as input. Thus it is hypothesized that it is possible to create a LUDO player trained by backpropagation using the same information as a human player, the position of all tokens and the dice roll.
 
-The complexity of the LUDO game, makes it impossible to make a analytical solution by simply creating a lookup table with every solution for every state, thus making decision making a lookup table, as shown in \cite{ludoanalysis}. This article tries to determine an appropriate neural network for an agent playing on level with other solutions.
+The complexity of the LUDO game, makes it impossible to make a analytical solution by simply creating a lookup table with every solution for every state \cite{ludoanalysis}. This article tries to determine an appropriate neural network for an agent playing on level with other solutions.
 
 The performance of the ludo player will be measured by the proverb: "If you ain't first you're last" \footnote{ $http://en.wikiquote.org/wiki/Talladega\_Nights:\_The\_Ballad\_of\_Ricky\_Bobby$}
-, thus only the amount of victories will be measured. To test this the LUDO player will play against its opponents opponents until a linearity is found, i.e. more plays wont change the relationship between wins.
+, thus only the amount of victories will be measured. To test this the LUDO player will play multiple games until a linearity is found, i.e. more plays wont change the relationship between wins.
 
 %Tweaking of input could also be called embodied AI, move when pushed or something.
 
 The goal will be to avoid any preprocessing of parameters towards the creation of the neural network. Examples of such tweaking will be shown both to show it's strengths and why it is desirable to avoid. Neural networks are often created with preprocessed input \cite{NeuronOnline}. 
 
-An example of such preprocessing can be seen by looking at the ludo game and it's dynamics. Every turn a piece is dictated to move forward, and except from stars and globes overall progress is the same. Thus one could speculate that the most important factor is hitting home. One could thus give the relationship  of positions between pieces instead of all positions, as seen in figure %\ref{?}. 
+An example of such preprocessing can be seen by looking at the ludo game and it's dynamics. Every turn a piece is dictated to move forward, and except from stars and globes overall progress is the same. Thus one could speculate that the most important factor is hitting home. One could thus give the relationship  of positions between pieces instead of all positions, as seen in figure \ref{fig:pos}.
 
 %Several methods exist to form
 
+
+\begin{figure}[t]
+        \centering
+		\includegraphics[scale=0.4]{../relation_ship_between_bricks2.png} 
+        \caption{ Figure showing a possible preprocessed input taking the relative position of bricks into account. Thus one has decided that this factor is important for the performance of the LUDO player.}\label{fig:pos}
+\end{figure}
 
 %The indicating the gain from using stars and globes.
 
@@ -124,36 +130,27 @@ The problem is that this isn't necessarily the best solution and could thus stee
 
 The neural networks were implemented using PyBrain described in \cite{schaul2010}. This was done because of a desire to obtain the flexibility and ease of Python while still retaining the speed of C. 
 
-The implementation of the LUDO game was done using the simulator was developed in effort with Rudi Hansen, Leon Larsen and Kent Stark Olsen. The simulator follows the rules of LUDO as described in \cite{LudoWiki}, though using danish rules with stars and globes, three tries for entry with no active pieces and always using four players.
+The implementation of the LUDO game was done using the simulator developed in effort with Rudi Hansen, Leon Larsen and Kent Stark Olsen. The simulator follows the rules of LUDO as described in \cite{LudoWiki}, though using danish rules with stars and globes, three tries for entry with no active pieces and always using four players.
 
-Before training the neural networks their dimension must be decided. There exist no formal definition for how to chose the size of a network with unknown complexity. \cite{frean:mar} is an approach to train the size of perceptron networks, though given the complexity of LUDO this approach is avoided. Though to avoid over fitting the system when training, the dimension should not be to large. A standard element of neural networks is the perceptron taking weighted input and returns 0 or 1. Thus a combination of these could decide which brick to move. The problem is that a single layer perceptron is a linear separator and to avoid this a hidden layer is introduced \cite{Russell}.
+Before training the neural networks their dimension must be decided. There exist no formal definition for how to chose the size of a network with unknown complexity. The more neurons the better it should be possible to fit the training data. Though to avoid over fitting the system when training, the dimension should not be to large. A standard element of neural networks is the perceptron taking weighted input and returns 0 or 1. Thus a combination of these could decide which brick to move. The problem is that a single layer perceptron is a linear separator and to avoid this a hidden layer is introduced \cite{Russell}. \cite{frean:mar} is an approach to train the size of perceptron networks, though given the complexity of LUDO this approach is deemed to complex.
 
-The ludo player developed uses a neural network to decide which token to move given state and roll values. The values are scaled between 0 and 1 . In ludo one cannot decide not to move any of the tokens and thus it necessary to guarantee that the move is legal. This is done by taking the best value that gives a change in states and using that as the move. The start position is a random start value, so if all ranks were equal it would be a random output.
+The LUDO player developed uses a neural network to decide which token to move given state and roll values. The values are scaled between 0 and 1. In ludo one cannot decide not to move any of the tokens and thus it necessary to guarantee that the move is legal. This is done by taking the best value that gives a change in states as the move. Thus the number of and size of the hidden layers will be described in each test, though input and output size stays the same. To train the network towards the optimal multiple procedures were explored. These methods are described in the following section.
 
-The number of and size of the hidden layers will be described in each test, though input and output size stays the same.
+%The start position is a random start value, so if all ranks were equal it would be a random output.
 
-To train the network towards the optimal multiple procedures were explored. These methods are described in the following section.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 \section*{Imitating Human Player}
  
-
-Originally neural networks were trained using different error minimization procedures. 
-Back-propagating was used.
+The backpropagation method uses a training signal to adjust the ANN. Thus it is necessary to provide a training signal for this approach. By looking at different ludo games and measuring the procedure of the winner one could create train a neuron to make winner decisions. The system is still seen as a black box as no evaluation is done on the actual moves, they are simply used by the winner.
 
 \subsection*{Methods}
 
+As no data set of ludo winner moves were available an imitation were performed. Evaluation data was collected by agents taking random moves playing against each other. By a chance of 1/200 the board state and dice roll were added to a dataset. A test person evaluates the data, and chose the "perceived" optimal move. Thus a learning set were created for the back propagation algorithm. The first test is to see whether it is possible to train a neural network using datasets with an answers provided by a human. More than 200 situations were evaluated before before the training began. Using pack-propagation the neural network were trained to fit the data set, and made to play against opponent. 
 
-Thus it is necessary to provide a training signal for this approach. By looking at different ludo games and measuring the procedure of the winner one could create train a neuron to make winner decisions. The system is still seen as a black box as no evaluation is done on the actual moves, they are simply used by the winner.
-
-As no data set of ludo winner moves were available an imitation were performed. Test data were collected by agents taking random moves playing against each other. By a chance of 1/200 the board state and dice roll were added to a dataset. 
-
-A test person then evaluates the data, and chose the "perceived" optimal move. Thus a learning set were created for the back propagation algorithm.
-
-The first test is to see whether it is possible to train a neural network using datasets with an answers provided by a human. More than 200 situations were evaluated before before the training began. Using pack-propagation the neural network were trained to fit the data set, and made to play against opponent. 
-
+\indent
 
 The training data for the human player can be found on Dropbox  \footnote{ \url{https://www.dropbox.com/s/i3fa0ewf9xxtyy5/marius_list_scaled.dat}}, it consist of 237 states with 17 input and 1 output scaled between 0 and 1, as a PyBrain ClassificationDataSet.
 
@@ -191,7 +188,7 @@ Figure \ref{fig:marius_training} shows the result of three games 100 rounds of L
 
 \subsection*{Analysis and Discussion}
 
-It is shown that it is possible to train a network to be able to beat the opponent. Quite a lot of tweaking were required to make the system work. And in some cases it was possible to train the network to be worse than the random player.
+It is shown that it is possible to train a network to be able to beat the opponent. Quite a lot of tweaking were required to make the player win. And in some cases it was possible to train the network to be worse than the random player.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -266,7 +263,7 @@ The results of the training can be seen in figure \ref{fig:quick_training}. Subf
                 \caption{1000 games of two QuickPlayers against two trained networks. \\}
                 \label{fig:qui3} 
         \end{subfigure}%
-        \caption{The QuickPlayer against the trained ANN player }\label{fig:quick_training}
+        \caption{Two QuickPlayer agents against two instances of the trained ANN player. }\label{fig:quick_training}
 \end{figure}
 
 
@@ -324,21 +321,38 @@ From the randomly generated data input it is seen that the trained networks simp
 
 \section*{Playing against other Agents}
 
-To test the effectiveness of the trained players another LUDO player was borrowed from Leon Larsen. This agent is also trained but does use quite a different approach. 
+To test the effectiveness of the trained players another LUDO player was borrowed from Leon Larsen. This agent is also trained but does use quite a different approach. The opponent is a sequentially trained player using both Temporal Difference, TD \cite{tesauro:g}, learning and backpropagation.
+
+The learning is split into two parts to cover what is defined as static and dynamic parameters. The static parameters are as follows, jumping by landing on a star, the correct number of moves to enter the goal and that a dice roll of six is required to leave the start. These are seen as static parameters as they do not change during the game, land on a star will always move one to the other star independent of the state of the game.
+
+The dynamic parameters are the concept of hitting home tokens, and the fact that a token cannot be hit home if it is on a globe or stands together with another token. These are determined to be dynamic as the concept of hitting home is determined by the state of the game. Hitting another player home depends on wheter the other 
+
+The static parameters are trained by TD learning. By moving the brick around it is calculated how ofte
+Whenever a game is won, the rewards of the tiles visited during the game are updated. This way the system learns about tiles that leads to victory and a strategy to maximise the rewards can be formulated. 
 
 
-It makes sense that it is very hard to fit actually some of random players .
-
-Leons agent. Trained sequentially with preprocessed input.
-
-The input to the network is as follows.
+Dynamic
 
 
-Reinforcement learning.
+For training the dynamic parameters backpropagation is used. The input for the network is the immediate positions around the token, i.e. five backwards and six forwards. An enemy token would give a positive threat and a friendly token would give a negative threat. Moves are evaluated based on the threat scores on new positions.
+
+Since the teacher signal is only present when an event has occurred (ie. a token was hit home) learning will only take place in that case. 
+
+ To accommodate this the said neurons have been given a pseudo-recurrency property meaning that a fraction of their activation is remembered for training purposes, but are not part of the output. 
+
+
+Training
+
+ The ANN weights are initialised to fixed values close to zero. Four instances of the agent are trained for 200 games and then competes for 1.000 games without learning only exploiting what was learned in the training phase. Two instances are trained sequentially by running 100 games with only static rules active followed by 100 games with only dynamic rules active. The other two instances are trained for 200 games with all rules active.
+
+\subsection*{Methods}
+
+Before testing the agents against each other the Sequential player had to be trained. This was done by first testing the  testing between
+
+The Sequintial player is trained for 100 turns using and training only the static parameters and 100 turns using and training the dynamic parameters.
+
 
 \subsection*{Results}
-
-The results of the training can be seen in figure \ref{fig:quick_training}. Subfigure \ref{fig:qui2} shows the trained network against 3 random opponents. The win ratio is just below 0.5. The effectiveness of the trained network can be seen in subfigure \ref{fig:qui2}. It plays with almost the same effectiveness as the QuickPlayer with a ratio of below 0.5 wins per play. Subfigure \ref{fig:qui3} shows the two agents playing against each other. It can be seen that both QuickPlayers peform a little better than the trained networks.
 
 
 \begin{figure}
@@ -369,7 +383,7 @@ Though the effect of this approach especially against the Sequentially trained p
 
 \section*{Conclusion} % 5%
 
-Using the backpropagation to copy the advanced players does not seem to be able to work. The number of and shape could of course have been completely wrong. 
+Using the backpropagation to copy the advanced players does not seem to be able to work. The number of and shape could of course have been completely wrong. As the article \cite{petersen:m} showed that pixels can be used as input for recognition. 
 
 Another interesting result is the effectiveness of using a consistent plan for the LUDO player. Even though the 
 ANN networks effectively didn't make any choices based on the input. 
@@ -380,7 +394,7 @@ The complete set of states is a very large input. It was simply to complicated f
 
 %%% Dette lyder meget stærkt, skal skrives om
 
-The tests gives an insight into the limits of artificial neural networks. To be able to train the networks properly one needs to have a proper insight to the system designing the network for. One needs to chose proper parameters as input if the network should be able find any consistency. Thus the black box approach for training ANN seems very infeasible. \cite{chellapilla:k} shows that using proper preprocessing it is possible to solve the LUDO problem quite effectively using neural networks thus indicating that this should also be the case for the implementation of LUDO.
+The tests gives an insight into the limits of artificial neural networks. To be able to train the networks properly one needs to have a proper insight to the system designing the network for. One needs to chose proper parameters as input if the network should be able find any consistency. Thus the black box approach for training ANN seems very infeasible. \cite{chellapilla:k} shows that using proper preprocessing it is possible to solve the LUDO problem quite effectively using neural networks thus indicating that this should also be the case for the implementation of LUDO. 
 
 %%
 It could be very interesting to test the ability to train towards GOFAI players using other approaches with the input preprocessed towards their solution. Possibly starting with a more simple version of the game to determine how to preprocess the data and determine the effectiveness of different setups.
@@ -435,6 +449,16 @@ Neural Computation 2, 198-209 (1990)
 Chellapilla, K. and Fogel, D.B.
 Evolution, neural networks, games, and intelligence
 Proceedings of the IEEE , vol.87, no.9, 1471 - 1496 Sep(1999)
+%
+\bibitem[GT1]{tesauro:g}
+Tesauro, G.
+Temporal Difference Learning and TD-Gammon
+Communications of the ACM, vol.38, no. 3. March(1995) 
+%
+\bibitem[ME1]{petersen:m}
+Egmont-Petersen, M. and de Ridder, D. and Handels H. 
+"Image processing with neural networks ? a review," 
+Pattern Recognition, vol. 35, no.10, 2279-2301 (2002)
 
 
 \end{thebibliography}
