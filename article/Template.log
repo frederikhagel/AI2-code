@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2014.5.15)  2 JUN 2014 10:39
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2014.5.15)  2 JUN 2014 11:13
 entering extended mode
  %&-line parsing enabled.
 **Template.tex
@@ -353,27 +353,28 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <7> on input line 84.
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <5> on input line 84.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <9> on input line 104.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 104.
  [1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
-<../relation_ship_between_bricks2.png, id=35, 522.95375pt x 301.125pt>
+<../relation_ship_between_bricks2.png, id=30, 522.95375pt x 301.125pt>
 File: ../relation_ship_between_bricks2.png Graphic file (type png)
 
 <use ../relation_ship_between_bricks2.png> [2 <../relation_ship_between_bricks2
-.png>] [3]
-<../marius_25_25_bias_against_random.png, id=70, 578.16pt x 433.62pt>
+.png>]
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <9> on input line 154.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 154.
+ [3]
+<../marius_25_25_bias_against_random.png, id=67, 578.16pt x 433.62pt>
 File: ../marius_25_25_bias_against_random.png Graphic file (type png)
 
 <use ../marius_25_25_bias_against_random.png>
-<../marius_25_25_bias_against_random2.png, id=71, 578.16pt x 433.62pt>
+<../marius_25_25_bias_against_random2.png, id=68, 578.16pt x 433.62pt>
 File: ../marius_25_25_bias_against_random2.png Graphic file (type png)
 
 <use ../marius_25_25_bias_against_random2.png>
-<../marius_25_25_bias_against_random3.png, id=72, 578.16pt x 433.62pt>
+<../marius_25_25_bias_against_random3.png, id=69, 578.16pt x 433.62pt>
 File: ../marius_25_25_bias_against_random3.png Graphic file (type png)
 
 <use ../marius_25_25_bias_against_random3.png>
@@ -383,7 +384,7 @@ Overfull \hbox (25.58467pt too wide) in paragraph at lines 165--184
 
 [4 <../marius_25_25_bias_against_random.png> <../marius_25_25_bias_against_rand
 om2.png> <../marius_25_25_bias_against_random3.png>]
-<../training_quick_results.png, id=87, 578.16pt x 433.62pt>
+<../training_quick_results.png, id=84, 578.16pt x 433.62pt>
 File: ../training_quick_results.png Graphic file (type png)
 
 <use ../training_quick_results.png>
@@ -391,7 +392,7 @@ Underfull \hbox (badness 1383) in paragraph at lines 250--250
 []\OT1/cmr/m/n/9 (a) |Re-sult of 1000 for the
  []
 
-<../training_quick_trained.png, id=88, 578.16pt x 433.62pt>
+<../training_quick_trained.png, id=85, 578.16pt x 433.62pt>
 File: ../training_quick_trained.png Graphic file (type png)
 
 <use ../training_quick_trained.png>
@@ -399,7 +400,7 @@ Underfull \hbox (badness 1270) in paragraph at lines 257--257
 []\OT1/cmr/m/n/9 (b) |Re-sult of 1000 for the
  []
 
-<../training_quick_vs_trained.png, id=89, 578.16pt x 433.62pt>
+<../training_quick_vs_trained.png, id=86, 578.16pt x 433.62pt>
 File: ../training_quick_vs_trained.png Graphic file (type png)
 
 <use ../training_quick_vs_trained.png>
@@ -413,14 +414,14 @@ Overfull \hbox (25.58467pt too wide) in paragraph at lines 248--267
  []
 
 [5 <../training_quick_results.png> <../training_quick_trained.png> <../training
-_quick_vs_trained.png>] <../50_random_1.png, id=103, 586.8324pt x 442.2924pt>
+_quick_vs_trained.png>] <../50_random_1.png, id=100, 586.8324pt x 442.2924pt>
 File: ../50_random_1.png Graphic file (type png)
 
 <use ../50_random_1.png> [6 <../50_random_1.png>] [7]
-<../leon_results.png, id=130, 578.16pt x 433.62pt>
+<../leon_results.png, id=127, 578.16pt x 433.62pt>
 File: ../leon_results.png Graphic file (type png)
  <use ../leon_results.png>
-<../sequintial_vs_random.png, id=131, 578.16pt x 433.62pt>
+<../sequintial_vs_random.png, id=128, 578.16pt x 433.62pt>
 File: ../sequintial_vs_random.png Graphic file (type png)
 
 <use ../sequintial_vs_random.png>
@@ -428,11 +429,11 @@ Overfull \hbox (4.11108pt too wide) in paragraph at lines 349--361
  [][]  [] 
  []
 
-[8] <../against_leo_mar.png, id=139, 578.16pt x 433.62pt>
+[8] <../against_leo_mar.png, id=136, 578.16pt x 433.62pt>
 File: ../against_leo_mar.png Graphic file (type png)
 
 <use ../against_leo_mar.png>
-<../against_leo_qui.png, id=140, 578.16pt x 433.62pt>
+<../against_leo_qui.png, id=137, 578.16pt x 433.62pt>
 File: ../against_leo_qui.png Graphic file (type png)
 
 <use ../against_leo_qui.png>
@@ -458,24 +459,24 @@ Underfull \hbox (badness 10000) in paragraph at lines 423--426
 
 [11] (./Template.aux) ) 
 Here is how much of TeX's memory you used:
- 5652 strings out of 493848
- 85121 string characters out of 1152823
+ 5650 strings out of 493848
+ 85092 string characters out of 1152823
  169262 words of memory out of 3000000
- 8805 multiletter control sequences out of 15000+50000
+ 8804 multiletter control sequences out of 15000+50000
  7456 words of font info for 27 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
- 38i,9n,38p,1033b,454s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 38i,9n,38p,1018b,454s stack positions out of 5000i,500n,10000p,200000b,50000s
 </usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm
 /cmbx10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx12.pfb
 ></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx9.pfb></usr/share
-/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/share/texmf-texli
-ve/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-texlive/fonts/typ
-e1/public/amsfonts/cm/cmr6.pfb></usr/share/texmf-texlive/fonts/type1/public/ams
-fonts/cm/cmr7.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr9
-.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmtt9.pfb>
-Output written on Template.pdf (11 pages, 596761 bytes).
+/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-texli
+ve/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/share/texmf-texlive/fonts/type
+1/public/amsfonts/cm/cmr7.pfb></usr/share/texmf-texlive/fonts/type1/public/amsf
+onts/cm/cmr9.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmtt9
+.pfb>
+Output written on Template.pdf (11 pages, 582453 bytes).
 PDF statistics:
- 221 PDF objects out of 1000 (max. 8388607)
- 59 named destinations out of 1000 (max. 500000)
+ 215 PDF objects out of 1000 (max. 8388607)
+ 58 named destinations out of 1000 (max. 500000)
  69 words of extra memory for PDF output out of 10000 (max. 10000000)
 

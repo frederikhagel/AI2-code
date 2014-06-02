@@ -84,7 +84,7 @@
 
 \begin{abstract}
 
-This article is a hand in for the course AI2 at the University of Southern Denmark. It concerns the training of a neural network for playing LUDO. The approach is a black box approach were the network is to be trained without using any prior analysis of the LUDO game. Thus the goal is to analyse the abilities of simple training using backpropagation with moves from other LUDO players. Thus the state of the board is used without any preprocessing and no knowledge about the game is used. It is shown that the approach used is not able to cope with the complexity of LUDO. Backpropagation and trying to learn from players using GOFAI is not easily done. Though others have shown that simply using the raw input for ANN can create competent agents for solving various task. An interesting aspect about the LUDO game is found in the effectiveness of always moving the same token when possible. This also explains why most neural networks initiated with random parameters will outperform a random player significantly. 
+This article is a hand in for the course AI2 at the University of Southern Denmark. It concerns the training of a neural network for playing LUDO. The approach is a black box approach were the network is to be trained without using any prior analysis of the LUDO game. Thus the goal is to analyse the abilities of simple training using backpropagation with moves from other LUDO players. Thus the state of the board is used without any preprocessing and no knowledge about the game is used. It is shown that the approach used is not able to cope with the complexity of LUDO. Backpropagation and trying to learn from players using GOFAI is not easily done. Though others have shown that simply using the raw input for ANN can create competent agents for solving various task. An aspect of the LUDO game is found in the effectiveness of always moving the same token when possible. This also explains why most neural networks initiated with random parameters will outperform a random player significantly. 
 
 \end{abstract}
 
@@ -101,8 +101,8 @@ The idea for this article is to understand the limits of using artificial neural
 
 The complexity of the LUDO game, makes it impossible to make a analytical solution by simply creating a lookup table with every solution for every state \cite{ludoanalysis}. This article tries to determine an appropriate neural network for an agent playing on level with other solutions.
 
-The performance of the ludo player will be measured by the proverb: "If you ain't first you're last" \footnote{ $http://en.wikiquote.org/wiki/Talladega\_Nights:\_The\_Ballad\_of\_Ricky\_Bobby$}
-, thus only the amount of victories will be measured. To test this the LUDO player will play multiple games until a linearity is found, i.e. more plays wont change the relationship between wins.
+The performance of the ludo player will be measured by the ratio of wins per play% the proverb: "If you ain't first you're last" \footnote{ $http://en.wikiquote.org/wiki/Talladega\_Nights:\_The\_Ballad\_of\_Ricky\_Bobby$}
+, thus only the amount of victories will be measured, all other positions than winner is seen as losing. To test this the LUDO player will play multiple games until a linearity is found, i.e. more plays wont change the relationship between wins.
 
 %Tweaking of input could also be called embodied AI, move when pushed or something.
 
@@ -332,7 +332,7 @@ The rewards of the tiles are updated while playing the game. Only the goal is se
 
 For training the dynamic parameters backpropagation is used. The input for the network is the immediate positions around the token, i.e. five backwards and six forwards. An enemy token gives a positive threat and a friendly token gives a negative threat. Moves are evaluated based on the threat scores on new positions. Thus using the input and the according weights a threat score is calculated. After the move is performed, the result is found, i.e. 1 hit other player home, -1 token hit home or 0 nothing happened. This signal is then used to train the weights of the network.
 
-It possibly takes multiply turns before a token is hit home, and the training signal changes from 0. Thus the neurons are able to store their activation for training when an actual training signal occurs. Though this is only used for training and is not part of the decision making. 
+As it possibly takes multiply turns before a token is hit home, and thereby changing the training signal from 0. The neurons are able to store their activation for training when an actual training signal occurs. Though this is only used for training and is not part of the decision making. 
 
 \subsection*{Methods}
 
