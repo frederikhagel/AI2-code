@@ -84,7 +84,7 @@
 
 \begin{abstract}
 
-This article is a hand in for the course AI2 at the University of Southern Denmark. It concerns the training of a neural network for playing LUDO. The approach is a black box approach were the network is to be trained without using any prior analysis of the LUDO game. Thus the goal is to analyse the abilities of simple training using backpropagation with moves from other LUDO players. Thus the state of the board is used without any preprocessing and no knowledge about the game is used. It is shown that the approach used is not able to cope with the complexity of LUDO. Backpropagation and trying to learn from players using GOFAI is not  easily done. It is concluded that preprocessing of data is an important aspect in learning algorithms. An interesting aspect found, in the effectiveness of not alternating the output. Which also explains why most neural networks initiated with random parameters will outperform a random player significantly. 
+This article is a hand in for the course AI2 at the University of Southern Denmark. It concerns the training of a neural network for playing LUDO. The approach is a black box approach were the network is to be trained without using any prior analysis of the LUDO game. Thus the goal is to analyse the abilities of simple training using backpropagation with moves from other LUDO players. Thus the state of the board is used without any preprocessing and no knowledge about the game is used. It is shown that the approach used is not able to cope with the complexity of LUDO. Backpropagation and trying to learn from players using GOFAI is not easily done. Though others have shown that simply using the raw input for ANN can create competent agents for solving various task. An interesting aspect about the LUDO game is found in the effectiveness of always moving the same token when possible. This also explains why most neural networks initiated with random parameters will outperform a random player significantly. 
 
 \end{abstract}
 
@@ -97,7 +97,7 @@ This article is a hand in for the course AI2 at the University of Southern Denma
 %The goal of AI is an introduction to artificial neural networks, and therefore the agents developed in this article will use such an approach.
 
 
-The idea for this article is to understand the limits of using artificial neural networks, ANN, to solve problems. Thus it is not the goal to simply create the LUDO player with the best performance, but to understand how the performance depends on the development of the network and the given input. \cite{petersen:m} shows that it is possible to gain recognition and image understanding using pixels as input. Thus it is hypothesized that it is possible to create a LUDO player trained by backpropagation using the same information as a human player, the position of all tokens and the dice roll.
+The idea for this article is to understand the limits of using artificial neural networks, ANN, to solve problems. Thus it is not the goal to simply create the LUDO player with the best performance, but to understand how the performance depends on the development of the network and the given input. \cite{petersen:m} shows that it is possible to gain recognition and image understanding using pixels as input. Furthermore \cite{tesauro:g} shows that an ANN can be trained to play backgammon extremely well, where the dynamics of LUDO and backgammon are largely the same. Thus it is hypothesized that it is possible to create a LUDO player trained by backpropagation using the same information as a human player, the position of all tokens and the dice roll.
 
 The complexity of the LUDO game, makes it impossible to make a analytical solution by simply creating a lookup table with every solution for every state \cite{ludoanalysis}. This article tries to determine an appropriate neural network for an agent playing on level with other solutions.
 
@@ -127,14 +127,13 @@ The problem is that this isn't necessarily the best solution and could thus stee
 
 \section*{The neural network} 
 
-
 The neural networks were implemented using PyBrain described in \cite{schaul2010}. This was done because of a desire to obtain the flexibility and ease of Python while still retaining the speed of C. 
 
 The implementation of the LUDO game was done using the simulator developed in effort with Rudi Hansen, Leon Larsen and Kent Stark Olsen. The simulator follows the rules of LUDO as described in \cite{LudoWiki}, though using danish rules with stars and globes, three tries for entry with no active pieces and always using four players.
 
-Before training the neural networks their dimension must be decided. There exist no formal definition for how to chose the size of a network with unknown complexity. The more neurons the better it should be possible to fit the training data. Though to avoid over fitting the system when training, the dimension should not be to large. A standard element of neural networks is the perceptron taking weighted input and returns 0 or 1. Thus a combination of these could decide which brick to move. The problem is that a single layer perceptron is a linear separator and to avoid this a hidden layer is introduced \cite{Russell}. \cite{frean:mar} is an approach to train the size of perceptron networks, though given the complexity of LUDO this approach is deemed to complex.
+Before training the neural networks their dimension must be decided. There exist no formal definition for how to chose the size of a network with unknown complexity. The more neurons the better it should be possible to fit the network to the training data. Though to avoid over fitting the system when training, the network should not be to large. A standard element of neural networks is the perceptron which takes a weighted input and returns 0 or 1. Thus a combination of these could decide which brick to move. The problem is that a single layer perceptron is a linear separator and to avoid this a hidden layer is introduced \cite{Russell}. \cite{frean:mar} is an approach to train the size of perceptron networks, though given the complexity of LUDO this approach is deemed to complex.
 
-The LUDO player developed uses a neural network to decide which token to move given state and roll values. The values are scaled between 0 and 1. In ludo one cannot decide not to move any of the tokens and thus it necessary to guarantee that the move is legal. This is done by taking the best value that gives a change in states as the move. Thus the number of and size of the hidden layers will be described in each test, though input and output size stays the same. To train the network towards the optimal multiple procedures were explored. These methods are described in the following section.
+The LUDO player developed uses a neural network to decide which token to move given the board state and dice roll. The values are scaled between 0 and 1. In ludo one cannot decide not to move any of the tokens and thus it is necessary to guarantee that the move is legal. This is done by taking the best value that gives a change in states as the move. The number of and size of the hidden layers will be described in each test, though input and output size stays the same. To train the network towards the optimal multiple procedures were explored. These methods are described in the following sections.
 
 %The start position is a random start value, so if all ranks were equal it would be a random output.
 
@@ -144,7 +143,7 @@ The LUDO player developed uses a neural network to decide which token to move gi
 
 \section*{Imitating Human Player}
  
-The backpropagation method uses a training signal to adjust the ANN. Thus it is necessary to provide a training signal for this approach. By looking at different ludo games and measuring the procedure of the winner one could create train a neuron to make winner decisions. The system is still seen as a black box as no evaluation is done on the actual moves, they are simply used by the winner.
+The backpropagation method uses a training signal to adjust the ANN. Thus it is necessary to provide a training signal for this approach. By looking at different ludo games and measuring the procedure of the winner one could train an ANN to make winner decisions. The system is still seen as a black box as no evaluation is done on the actual moves, they are simply used by the winner.
 
 \subsection*{Methods}
 
@@ -152,11 +151,11 @@ As no data set of ludo winner moves were available an imitation were performed. 
 
 \indent
 
-The training data for the human player can be found on Dropbox  \footnote{ \url{https://www.dropbox.com/s/i3fa0ewf9xxtyy5/marius_list_scaled.dat}}, it consist of 237 states with 17 input and 1 output scaled between 0 and 1, as a PyBrain ClassificationDataSet.
+The training data for the human player can be found on Dropbox  \footnote{ \url{https://www.dropbox.com/s/i3fa0ewf9xxtyy5/marius_list_scaled.dat}}, it consist of 237 states with 17 input and 1 output, scaled to be between 0 and 1 stored as a PyBrain ClassificationDataSet.
 
 \subsection*{Results}
 
-For the backpropagation method the data set were split into a training and test set with a proportion of 0.25.  Quite a lot of adjustments were made for the backpropagation, ending with a momentum of 0.01 and a weight decay of 0.01. Similarly adjustments lead to a network of two hidden layers with 25 neurons using bias as this gave the best results. This gave a training error: 66.85\% and a test error: 62.71\% . 
+For the backpropagation method the dataset were split into a training and test set with a proportion of 0.25.  Quite a lot of adjustments were made for the backpropagation, ending with a learning rate of 0.01 and a weight decay of 0.01. Similarly adjustments lead to a network of two hidden layers with 25 neurons using bias as this gave the best results. This gave a training error: 66.85\% and a test error: 62.71\% . 
 
 Figure \ref{fig:marius_training} shows the result of three games 100 rounds of LUDO against three random players. It can be seen that though the neural network is not able to win all the games it is by far the most winning. Running 1000 games gives a win ratio of 0.44 for the trained agent.
 
@@ -182,60 +181,62 @@ Figure \ref{fig:marius_training} shows the result of three games 100 rounds of L
                 \caption{100 games against 3 random opponents.}
                 \label{fig:mar3}
         \end{subfigure}%
-        \caption{Results of the agent trained by human input data, playing against random players. The wins for the agent is shown in blue. }\label{fig:marius_training}
+        \caption{Results of the agent trained by human input data, playing against random players. The wins for the agent is shown in blue, being the line with the steepest decent. }\label{fig:marius_training}
 \end{figure}
 
 
 \subsection*{Analysis and Discussion}
 
-It is shown that it is possible to train a network to be able to beat the opponent. Quite a lot of tweaking were required to make the player win. And in some cases it was possible to train the network to be worse than the random player.
+It is shown that it is possible to train a network to be able to beat the opponent. Quite a lot of tweaking were required to make the player win. And in many cases it was possible to train the network to be worse than the random player.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section*{Randomly Winning}
-
-Though the human trained did perform good it could be interesting to train with a much larger dataset. Another test were performed to test the pack propagations possibility of learning simply from random games. Numerous games were played with random agents and for every game that resulted in a win, states chosen moves were collected for every round. Thus a dataset to win against random agents were created. 
-
-\subsection*{Method} 
-
-To test what network best fitted such data, backpropagation were performed for increasingly larger neural network with along with an increasing number of training epochs. Using this data a player was created to compete against random players.
-
-Using the optimal set of hidden neurons, an ANN was trained for 10 epochs, using a weight of 0.01 and a weight decay of 0.001. As this gave the best results.
-
-\subsection*{Result}
-
-The test for lowest error can be seen in figure \ref{fig:3D}. 
-
-Fitting the data using automatically generated data. Trying to decide the optimal size to fit the data, i.e. the test data.
-
-\begin{figure}[t]
-        \centering
-		\includegraphics[scale=0.3]{../testing_fit_3D.png} 
-        \caption{ Plot showing the error of the training set using different epochs and number of hidden neurons. Respectively on the right and left side.}\label{fig:3D}
-\end{figure} 
-
-The result of the randomly generated player against.
-
-
-
-\subsection*{Analysis and Discussion}
-
-Not surprisingly the more hidden neurons the better fit can be achieved.
+%
+%\section*{Randomly Winning}
+%
+% Another test were performed. This time to test the pack propagations possibility of learning simply from random games. Numerous games were played with random agents and for every game that resulted in a win, states chosen moves were collected for every round. Thus a dataset to win against random agents were created. 
+%
+%\subsection*{Method} 
+%
+%To test what network best fitted such data, backpropagation were performed for increasingly larger neural network with along with an increasing number of training epochs. Using this data a player was created to compete against random players.
+%
+%Using the optimal set of hidden neurons, an ANN was trained for 10 epochs, using a weight of 0.01 and a weight decay of 0.001. As this gave the best results.
+%
+%\subsection*{Result}
+%
+%The test for lowest error can be seen in figure \ref{fig:3D}. 
+%
+%Fitting the data using automatically generated data. Trying to decide the optimal size to fit the data, i.e. the test data.
+%
+%\begin{figure}[t]
+%        \centering
+%		\includegraphics[scale=0.3]{../testing_fit_3D.png} 
+%        \caption{ Plot showing the error of the training set using different epochs and number of hidden neurons. Respectively on the right and left side.}\label{fig:3D}
+%\end{figure} 
+%
+%The result of the randomly generated player against.
+%
+%
+%
+%\subsection*{Analysis and Discussion}
+%
+%Not surprisingly the more hidden neurons the better fit can be achieved.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 \section*{Imitating Another Agent}
 
-The problem with imitating the random player is that it is not able to keep a consistent plan. As the backpropagation is trying to minimize the error between input and output. For example when choosing which piece to move from the start after a roll of 6 the random players chose each one randomly. For a neural network it is impossible to imitate this and it would introduce error to the backpropagation fit.
+Though the human trained did perform well it could be interesting to train with a much larger dataset. A idea could be to play numerous games with random agents. For every game that resulted in a win, all data is collected, i.e. state of the board and the dice roll. Thus a dataset for wins against random agents is created. 
+
+The problem with imitating the random player is that it is not able to keep a consistent plan. As the backpropagation is trying to minimize the error between input and output. For example, when choosing which piece to move at the start after a roll of 6, the random players chose each one randomly. For a neural network it is impossible to imitate this and it would introduce error to the backpropagation fit.
 
 A better idea would be to imitate an agent that uses a consistent plan to win. Multiple agents using GOFAI were created and the QuickPlayer were chosen. The quick player uses a simple greedy approach of always moving the furthest token which can get closets to the goal.
 
 \subsection*{Method}
 
-To be able to predict the player better a much larger neural network were created. 100 games were played and every state and chosen move for the QuickPlayer were chosen. These were used as input for the back propagation. 
+To be able to predict the player better a much larger neural network were created. 100 games were played and every state and chosen move for the QuickPlayer were chosen. These were used as input for the back propagation.  
 
-Multiple runs with the backpropagation were used running with an momentum of 0.01 and a weight decay of 0.001 as it had to run through the large data set with size 36599. The backpropagation were run for 15 epochs effectively giving an error about 65 \%.
+Multiple runs with the backpropagation were used running with an learning rate of 0.01 and a weight decay of 0.001 as it had to run through the large data set with size 36599. With a 0.25 ratio split for testing. The backpropagation were run for 15 epochs effectively giving an error about 65 \%.
 
 \subsection*{Results}
 
@@ -281,7 +282,7 @@ It was seen that the trained networks did perform better than the random players
 
 \subsection*{Method}
 
-The network was made with a hidden layer of size 5 with no bias. They were made to be simple as the weight were random \footnote{why exactly} Parameters were randomly generated with values between -1 and 1.  50 different neural networks playing against three random players for 100 games. 
+The network was made with a hidden layer of size 5 with no bias. The networks were made to be smaller as initial testing showed that networks of this size could also perform quite good, and this was intended as a simple test. Parameters were randomly generated with values between -1 and 1. 50 different neural networks playing against three random players for 100 games. 
 
 \subsection*{Results}
 
@@ -295,7 +296,7 @@ The results of the multiple agents games can be seen in figure \ref{fig:random_5
 
 \subsection*{Analysis and Discussion}
 
-It can be seen simply having a plan makes the network better. It is possible that the scaling of inputs between  -1 and 1 did have an effect in making the parameters good. Though most likely it simply stems from the fact that moving more consistently, when possible, is a better strategy than moving random. 
+It can be seen that simply having a plan makes the network perform better. It is possible that the scaling of inputs between  -1 and 1 did have an effect in making the parameters good. Though most likely it simply stems from the fact that moving more consistently, when possible, is a better strategy than moving random. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -309,7 +310,7 @@ To test the valid moves 100 games are played and every time the agent makes a mo
 
 \subsection*{Results}
 
-For the human and QuickPlayer trained networks the ratio of valid moves were 0.332 and 0.325 respectively. Testing the 1000 randomly generated input between 0 and 1 gave the completely same result. I.e. for the QuickPlayer generated the output was [ 0.30486155  0.31426025  0.33858957  0.04048108] and for the human trained the output was [ 0.36656972  0.334266    0.06157172  0.23690873].
+For the human and QuickPlayer trained networks the ratio of valid moves were 0.332 and 0.325 respectively. Testing the networks output for the 1000 randomly generated inputs between 0 and 1 gave the completely same result. For the QuickPlayer generated the output was [ 0.30486155  0.31426025  0.33858957  0.04048108] and for the human trained the output was [ 0.36656972  0.334266    0.06157172  0.23690873].
 
 \subsection*{Analysis and Discussion}
 
@@ -319,85 +320,92 @@ From the randomly generated data input it is seen that the trained networks simp
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-\section*{Playing against other Agents}
+\section*{Performance against other Agents}
 
-To test the effectiveness of the trained players another LUDO player was borrowed from Leon Larsen. This agent is also trained but does use quite a different approach. The opponent is a sequentially trained player using both Temporal Difference, TD \cite{tesauro:g}, learning and backpropagation.
+To test the effectiveness of the trained players a LUDO player developed by Leon Larsen was borrowed. This agent is also trained, but use a very different approach of learning. The opponent is a sequentially trained player using both Temporal Difference learning, TD \cite{sutton:r}, and backpropagation.
 
-The learning is split into two parts to cover what is defined as static and dynamic parameters. The static parameters are as follows, jumping by landing on a star, the correct number of moves to enter the goal and that a dice roll of six is required to leave the start. These are seen as static parameters as they do not change during the game, land on a star will always move one to the other star independent of the state of the game.
+The learning is split into two parts to cover what is defined as the static and dynamic parameters. The static parameters are as follows, jumping by landing on a star, requirement of the correct dice roll to enter the goal and that a dice roll of six is required to leave the start. These are seen as static parameters as they do not change during the game, landing on a star will always move one to the next star independently of the state of the game.
 
-The dynamic parameters are the concept of hitting home tokens, and the fact that a token cannot be hit home if it is on a globe or stands together with another token. These are determined to be dynamic as the concept of hitting home is determined by the state of the game. Hitting another player home depends on wheter the other 
+The dynamic parameters are the concept of hitting home tokens, and the fact that a token cannot be hit home if it is on a globe or stands together with another token. These are determined to be dynamic as the concept of hitting home is determined by the state of the game, i.e. it is only advantageous to move to a globe if there is a possibility of being hit home.
 
-The static parameters are trained by TD learning. By moving the brick around it is calculated how ofte
-Whenever a game is won, the rewards of the tiles visited during the game are updated. This way the system learns about tiles that leads to victory and a strategy to maximise the rewards can be formulated. 
+The rewards of the tiles are updated while playing the game. Only the goal is set to a reward other than zero, thus when the token encounters the goal, the tile from where it came is updated according to the learning rate. Thus are the tiles updated, while stars get a higher score as they lead to the goal more quickly, and correct dice rolls lead to the stars which gives them a higher weight. Thus an optimal path for moving towards the goal given a specific dice roll.
 
+For training the dynamic parameters backpropagation is used. The input for the network is the immediate positions around the token, i.e. five backwards and six forwards. An enemy token gives a positive threat and a friendly token gives a negative threat. Moves are evaluated based on the threat scores on new positions. Thus using the input and the according weights a threat score is calculated. After the move is performed, the result is found, i.e. 1 hit other player home, -1 token hit home or 0 nothing happened. This signal is then used to train the weights of the network.
 
-Dynamic
-
-
-For training the dynamic parameters backpropagation is used. The input for the network is the immediate positions around the token, i.e. five backwards and six forwards. An enemy token would give a positive threat and a friendly token would give a negative threat. Moves are evaluated based on the threat scores on new positions.
-
-Since the teacher signal is only present when an event has occurred (ie. a token was hit home) learning will only take place in that case. 
-
- To accommodate this the said neurons have been given a pseudo-recurrency property meaning that a fraction of their activation is remembered for training purposes, but are not part of the output. 
-
-
-Training
-
- The ANN weights are initialised to fixed values close to zero. Four instances of the agent are trained for 200 games and then competes for 1.000 games without learning only exploiting what was learned in the training phase. Two instances are trained sequentially by running 100 games with only static rules active followed by 100 games with only dynamic rules active. The other two instances are trained for 200 games with all rules active.
+It possibly takes multiply turns before a token is hit home, and the training signal changes from 0. Thus the neurons are able to store their activation for training when an actual training signal occurs. Though this is only used for training and is not part of the decision making. 
 
 \subsection*{Methods}
 
-Before testing the agents against each other the Sequential player had to be trained. This was done by first testing the  testing between
+Before testing the agents against each other the Sequential player had to be trained. The Sequential player plays 100 games using and training only the static parameters. Thereafter it plays 100 games using and training the dynamic parameters. The concurrently trained run the same training, but with all training active at the same time.  
 
-The Sequintial player is trained for 100 turns using and training only the static parameters and 100 turns using and training the dynamic parameters.
-
+Taking the best performing player from the performance test, it is tested against the two trained ANN. 100 games is played against them and the performance is measured.
 
 \subsection*{Results}
+
+The results of the training can be seen in figure \ref{fig:levs}. Subfigure \ref{fig:levc} shows the result of the sequentially and concurrently trained agents playing against each other. It is seen that the sequential players outperforms the concurrently with a small margin. Subfigure \ref{fig:levr} shows the result of the best performing sequential network against three random players. Though it shows better performance than the random players, it is not able to win overwhelmingly.
+
+\begin{figure}
+        \centering
+        \begin{subfigure}[b]{0.5\textwidth}
+                \includegraphics[width=\textwidth]{../leon_results.png}
+                \caption{ Outcome of 1000 games of the sequentially and concurrently trained playing against each other. }
+                \label{fig:levc}
+        \end{subfigure}%
+        ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
+          %(or a blank line to force the subfigure onto a new line)
+        \begin{subfigure}[b]{0.5\textwidth}
+                \includegraphics[width=\textwidth]{../sequintial_vs_random.png}
+                \caption{Result of 100 games for the sequentially trained against 3 random players. \\}
+                \label{fig:levr}
+        \end{subfigure}%
+        \caption{ Evaluation of the sequentially trained LUDO player. }\label{fig:levs}
+\end{figure}
 
 
 \begin{figure}
         \centering
         \begin{subfigure}[b]{0.5\textwidth}
                 \includegraphics[width=\textwidth]{../against_leo_mar.png}
-                \caption{Result of 100 for the player trained against the Sequentially trained and 2 random opponents.}
+                \caption{Result of 100 games for the agent trained by human input against the Sequentially trained and 2 random opponents. \\}
                 \label{fig:vle1}
         \end{subfigure}%
         ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
           %(or a blank line to force the subfigure onto a new line)
         \begin{subfigure}[b]{0.5\textwidth}
                 \includegraphics[width=\textwidth]{../against_leo_qui.png}
-                \caption{Result of 100 for the network trained towards QuickPlayer against the Sequentially trained and 2 random opponents.}
+                \caption{Result of 100 games for the network trained towards QuickPlayer against the Sequentially trained and 2 random opponents.}
                 \label{fig:vle2}
         \end{subfigure}%
         \caption{ Results of the two trained networks against the best performing sequential network. }\label{fig:against_seq}
 \end{figure}
 
+Figure \ref{fig:against_seq} shows the result of the two 'dead' ANN playing against the sequentially trained network. Subfigure \ref{fig:vle1} shows that the sequentially trained network wins by a small margin whereas subfigure \ref{fig:vle2} shows that the ANN trained towards the QuickPlayer outperforms the sequentially trained player.
+
 
 \subsection*{Analysis and Discussion}
 
-
-From the initial generation of datasets with random parameters it can be seen that all most all of them outperform the random approach. This indicates that using somewhat of a plan will outperform a completely random approach. Though testing of the trained players showed that the ANN didn't respond to any of the input, but simply relied on the fact that if the desired output wasn't possible the second best would be chosen.
-
-Though the effect of this approach especially against the Sequentially trained player. 
-
+This is a very interesting result showing the effectiveness of moving one token into the goal before starting to move the next one. Though the sequential network was not trained for very long and could possibly show much better results.
 
 \section*{Conclusion} % 5%
 
-Using the backpropagation to copy the advanced players does not seem to be able to work. The number of and shape could of course have been completely wrong. As the article \cite{petersen:m} showed that pixels can be used as input for recognition. 
-
-Another interesting result is the effectiveness of using a consistent plan for the LUDO player. Even though the 
+Using the backpropagation to copy the advanced players was in this case not possible. The number and connections of the neurons could of course have been completely wrong. Though a lot of adjustments were made to the parameters and no immediate solutions were found for changing the network.
+The tests give an insight into the limits of artificial neural networks. To be able to train the networks properly one needs to have a proper insight to the system designing the network for. Another interesting result is the effectiveness of using a consistent plan for the LUDO player. Even though the 
 ANN networks effectively didn't make any choices based on the input. 
 
-And interesting results were also seen from the fight against the Sequential Player. It was actually outperformed by the ANN simply trained by the QuickPlayer. This gives an idea about the complexity of the LUDO game as a simple "dead" player could outperform the active player using preprocessed input. Though being able to train against the ANN trained by the QuickPlayer the Sequential could possibly outperform it drastically.
 
-The complete set of states is a very large input. It was simply to complicated for the backpropagation to find any consistency when using the given ANN size. Preprocessing the input could drastically reduce the input size and complexity thus making it much easier to find consistency. \cite{frean:mar} was avoided because of the complexity of the LUDO input. Though given proper preprocessed data this would be an interesting approach to build components to determine the fitness of moves.
+\section*{Perspective}
 
-%%% Dette lyder meget stærkt, skal skrives om
+Interesting results were also seen from the competition against the Sequential Player. It was actually outperformed by the ANN trained by the QuickPlayer. This gives an idea about the complexity of the LUDO game as a simple "dead" player could outperform the active player using preprocessed input. Though being able to train against the ANN trained by the QuickPlayer the Sequential could possibly outperform it drastically.
 
-The tests gives an insight into the limits of artificial neural networks. To be able to train the networks properly one needs to have a proper insight to the system designing the network for. One needs to chose proper parameters as input if the network should be able find any consistency. Thus the black box approach for training ANN seems very infeasible. \cite{chellapilla:k} shows that using proper preprocessing it is possible to solve the LUDO problem quite effectively using neural networks thus indicating that this should also be the case for the implementation of LUDO. 
+The complete set of states is a very large input. It was simply to complicated for the backpropagation used to find any consistency when using the given ANN size. Preprocessing the input could drastically reduce the input size and complexity thus making it much easier to find consistency. \cite{chellapilla:k} shows that using genetic algorithms it is possible create a near expert level checker player. This indicates that it is not neseacarry to use preprocessed input to create a proper agent event with complex input. Indicating that this should also be the case for the implementation of LUDO. 
 
-%%
-It could be very interesting to test the ability to train towards GOFAI players using other approaches with the input preprocessed towards their solution. Possibly starting with a more simple version of the game to determine how to preprocess the data and determine the effectiveness of different setups.
+The article \cite{petersen:m} showed that pixels can be used as input for recognition. Thus creating a LUDO player taking the raw input should be possible. 
+
+It could be very interesting to test the ability to train towards GOFAI players using other approaches with the input preprocessed towards their solution. Possibly starting with a more simple version of the LUDO game to determine how to preprocess the data and determine the effectiveness of different setups. \cite{frean:mar} was avoided because of the complexity of the LUDO input. Though given proper preprocessed data this would be an interesting approach to build components to determine the the fitness of moves.
+
+
+
+
 
 
 
@@ -455,10 +463,17 @@ Tesauro, G.
 Temporal Difference Learning and TD-Gammon
 Communications of the ACM, vol.38, no. 3. March(1995) 
 %
+\bibitem[RS1]{sutton:r}
+Sutton, R. S.
+Learning to Predict by the Methods of Temporal Differences 
+Machine Learning 9-44 (1988)
+%
 \bibitem[ME1]{petersen:m}
 Egmont-Petersen, M. and de Ridder, D. and Handels H. 
-"Image processing with neural networks ? a review," 
+"Image processing with neural networks a review," 
 Pattern Recognition, vol. 35, no.10, 2279-2301 (2002)
+
+
 
 
 \end{thebibliography}

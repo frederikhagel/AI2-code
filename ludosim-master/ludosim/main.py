@@ -446,14 +446,14 @@ if __name__ == '__main__':
     fileObject = open('../../LudoProject/src/sequentially_trained1','r')
     sequintial0 = pickle.load(fileObject)
 
-#    players = [ sequintial0,
-#                ludosim.RandomPlayer(1, 'Random player 1'),                
-#                ludosim.RandomPlayer(2, 'Random player 2'),
-#                 MariusPlayer(3, '../../n_marius_for_testing_simple') ] 
     players = [ sequintial0,
                 ludosim.RandomPlayer(1, 'Random player 1'),                
                 ludosim.RandomPlayer(2, 'Random player 2'),
-                ludosim.RandomPlayer(3, 'Random player 2')]# MariusPlayer(3, '../../n_marius25') ]        
+                 MariusPlayer(3, '../../n_fast_with_bias') ] 
+#    players = [ sequintial0,
+#                ludosim.RandomPlayer(1, 'Random player 1'),                
+#                ludosim.RandomPlayer(2, 'Random player 2'),
+#                ludosim.RandomPlayer(3, 'Random player 2')]# MariusPlayer(3, '../../n_marius25') ]        
 
   
     # Variables to hold results

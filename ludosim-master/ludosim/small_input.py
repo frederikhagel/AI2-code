@@ -61,28 +61,37 @@ class GeneticPlayerSH5(object):
         n = FeedForwardNetwork()
         
         self.inLayer = LinearLayer(5)
-        self.hiddenLayer = SigmoidLayer(5)
+        self.hiddenLayer1 = SigmoidLayer(15)
+        self.hiddenLayer2 = SigmoidLayer(15)        
+        self.hiddenLayer3 = SigmoidLayer(15)
         self.outLayer = LinearLayer(4)
      
         
         n.addInputModule(self.inLayer)
-        n.addModule(self.hiddenLayer)
+        n.addModule(self.hiddenLayer1)
+        n.addModule(self.hiddenLayer2)
+        n.addModule(self.hiddenLayer3)
         n.addOutputModule(self.outLayer)
         
         from pybrain.structure import FullConnection
-        in_to_hidden = FullConnection(self.inLayer, self.hiddenLayer)
-        hidden_to_out = FullConnection(self.hiddenLayer, self.outLayer)
+        in_to_hidden = FullConnection(self.inLayer, self.hiddenLayer1)
+        hidden_to_hidden1 = FullConnection(self.hiddenLayer1, self.outLayer2)
+        hidden_to_hidden2 = FullConnection(self.hiddenLayer2, self.outLayer3)
+                
+        hidden_to_out = FullConnection(self.hiddenLayer3, self.outLayer)
         
         n.addConnection(in_to_hidden)
+         n.addConnection(hidden_to_hidden1)
+        n.addConnection(hidden_to_hidden2)
         n.addConnection(hidden_to_out)
         
         n.sortModules()
         
-        for j, i in enumerate(params[0]):
-            n.connections[self.hiddenLayer][0].params[j] = i  
-            
-        for j, i in enumerate(params[1]):
-            n.connections[self.inLayer][0].params[j] = i
+#        for j, i in enumerate(params[0]):
+#            n.connections[self.hiddenLayer][0].params[j] = i  
+#            
+#        for j, i in enumerate(params[1]):
+#            n.connections[self.inLayer][0].params[j] = i
 
         n.convertToFastNetwork()
 
@@ -300,16 +309,16 @@ if __name__ == '__main__':
               "  test error: %5.2f%%" % tstresult
 
         
-        for i in range(1000):
+        for i in range(100):
             para = []
             for i in range(5):
                 para.append(random.uniform(0, 1) )
             
-            print tr_network.activate( para )
+            print para, tr_network.activate( para )
 
-        gene1 = tr_network.connections[gplayer.hiddenLayer][0].params  
-            
-        gene2 = tr_network.connections[gplayer.inLayer][0].params
+#        gene1 = tr_network.connections[gplayer.hiddenLayer][0].params  
+#            
+#        gene2 = tr_network.connections[gplayer.inLayer][0].params
 
         
 
